@@ -1,0 +1,14 @@
+html, body, #root {
+  min-height: 100%;
+}
+
+#root {
+  display: flex;
+  justify-content: center;
+}
+
+.chakra-checkbox .chakra-checkbox__control {
+    border-radius: 9999px;
+    width: var(--chakra-sizes-6);
+    height: var(--chakra-sizes-6);
+}
