@@ -1,4 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
+import { filterReducer } from "./features/todos/filterSlice";
 import { orderReducer } from "./features/todos/orderSlice";
 import { searchReducer } from "./features/todos/searchSlice";
 import { todosReducer } from "./features/todos/todosSlice";
@@ -8,6 +9,7 @@ export const store = configureStore({
     todos: todosReducer,
     search: searchReducer,
     order: orderReducer,
+    filter: filterReducer,
   },
 });
 

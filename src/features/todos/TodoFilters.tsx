@@ -17,10 +17,11 @@ import {
   Tag,
   useToken,
 } from "@chakra-ui/react";
-import { useRef } from "react";
+import { ChangeEvent, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useDebouncedCallback } from "use-debounce";
 import { useAppSelector } from "~/hooks/useAppDispatch";
+import { changeFilter, clearFilter, FilterableTodoKey } from "./filterSlice";
 import { selectOrderProp, toggleOrder } from "./orderSlice";
 import { changeSearch, clearSearch } from "./searchSlice";
 import { TodoPriority, TodoProp, TodoStatus } from "./todosSlice";
@@ -80,14 +81,42 @@ export const TodoFilters = () => {
 };
 
 const Filters = () => {
+  const dispatch = useDispatch();
+
+  const createHandleChange =
+    (prop: FilterableTodoKey) => (e: ChangeEvent<HTMLSelectElement>) => {
+      const action = e.target.value
+        ? changeFilter([
+            prop,
+            e.target.value as unknown as TodoStatus | TodoPriority,
+          ])
+        : clearFilter(prop);
+
+      dispatch(action);
+    };
+
+  const handleStatusChange = createHandleChange("status");
+  const handlePriorityChange = createHandleChange("priority");
+
   return (
     <Flex>
-      <Select placeholder="Select status" rounded="full" mr={4} size="sm">
+      <Select
+        placeholder="Select status"
+        rounded="full"
+        mr={4}
+        size="sm"
+        onChange={handleStatusChange}
+      >
         <option value={TodoStatus.New}>New</option>
         <option value={TodoStatus.InProgress}>In Progress</option>
         <option value={TodoStatus.Done}>Done</option>
       </Select>
-      <Select placeholder="Select priority" rounded="full" size="sm">
+      <Select
+        placeholder="Select priority"
+        rounded="full"
+        size="sm"
+        onChange={handlePriorityChange}
+      >
         <option value={TodoPriority.Low}>Low</option>
         <option value={TodoPriority.Medium}>Medium</option>
         <option value={TodoPriority.High}>High</option>
@@ -121,7 +150,7 @@ const OrderPill = ({ prop }: OrderPillProps) => {
     dispatch(toggleOrder(prop));
   };
 
-  const Icon = order === "asc" ? TriangleUpIcon : TriangleDownIcon;
+  const Icon = order === "desc" ? TriangleDownIcon : TriangleUpIcon;
 
   const props = order
     ? { variant: "solid", colorScheme: "teal", borderColor: "teal.700" }

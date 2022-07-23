@@ -2,6 +2,7 @@ import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Fuse from "fuse.js";
 import { orderBy } from "lodash";
 import { RootState } from "../../store";
+import { FilterableTodoKey, selectFilter } from "./filterSlice";
 import { selectOrder } from "./orderSlice";
 import { selectSearch } from "./searchSlice";
 
@@ -91,8 +92,9 @@ export const selectTodos = (state: RootState) => state.todos;
 export const selectTodosWithFilters = createSelector(
   selectTodos,
   selectSearch,
+  selectFilter,
   selectOrder,
-  (todos, search, order) => {
+  (todos, search, filter, order) => {
     let results = todos;
 
     if (search) {
@@ -105,9 +107,23 @@ export const selectTodosWithFilters = createSelector(
       results = fuse.search(search).map((result) => result.item);
     }
 
-    const orderEntries = Object.entries(order);
+    const filterEntries = Object.entries(filter).filter(
+      ([, value]) => value !== undefined
+    );
 
-    if (orderEntries.some(([, value]) => value)) {
+    if (filterEntries.length) {
+      results = results.filter((todo) =>
+        filterEntries.every(
+          ([key, value]) => todo[key as FilterableTodoKey] === value
+        )
+      );
+    }
+
+    const orderEntries = Object.entries(order).filter(
+      ([, value]) => value !== undefined
+    );
+
+    if (orderEntries.length) {
       const [orderKeys, orderValues] = orderEntries.reduce(
         (acc, [key, value]) => {
           const [keys, values] = acc;

@@ -100,6 +100,9 @@ const statusesProps = {
   [TodoStatus.Done]: {
     container: {
       borderStyle: "dashed",
+      _hover: {
+        borderColor: "teal.500",
+      },
     },
     text: {
       decoration: "line-through",
