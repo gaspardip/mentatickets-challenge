@@ -1,5 +1,11 @@
-import { Stat, StatGroup, StatLabel, StatNumber } from "@chakra-ui/react";
-import { Card } from "~/components/card/Card";
+import {
+  Flex,
+  Heading,
+  Stat,
+  StatGroup,
+  StatLabel,
+  StatNumber,
+} from "@chakra-ui/react";
 import { useAppSelector } from "~/hooks/useAppDispatch";
 import { selectTodosStats } from "./todosSlice";
 
@@ -11,10 +17,12 @@ export const TodoStats = () => {
     new: newCount,
     inProgress,
     done,
+    total,
   } = useAppSelector(selectTodosStats);
 
   return (
-    <Card direction="column" mb={4} textAlign="center">
+    <Flex direction="column" textAlign="center">
+      <Heading mb={4}>{total} todos</Heading>
       <StatGroup>
         <Stat>
           <StatLabel>New</StatLabel>
@@ -43,6 +51,6 @@ export const TodoStats = () => {
           <StatNumber>{high}</StatNumber>
         </Stat>
       </StatGroup>
-    </Card>
+    </Flex>
   );
 };

@@ -2,6 +2,7 @@ import { AddIcon } from "@chakra-ui/icons";
 import {
   Button,
   Flex,
+  FlexProps,
   Input,
   InputGroup,
   InputRightElement,
@@ -10,15 +11,14 @@ import { FormEventHandler, useRef } from "react";
 import { useAppDispatch } from "~/hooks/useAppDispatch";
 import { addTodo, TodoPriority } from "./todosSlice";
 
-export const NewTodoInput = () => {
+export const NewTodoInput = (props: FlexProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
 
   const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
     e.preventDefault();
 
-    const formData = new FormData(e.currentTarget);
-    const name = formData.get("name") as string;
+    const name = inputRef.current!.value;
 
     dispatch(
       addTodo({
@@ -33,12 +33,12 @@ export const NewTodoInput = () => {
   };
 
   return (
-    <Flex as="form" onSubmit={handleSubmit as any} w="full" mb={4}>
+    <Flex {...props} as="form" onSubmit={handleSubmit as any} w="full">
       <InputGroup>
         <Input
           ref={inputRef}
           name="name"
-          borderWidth={4}
+          borderWidth={2}
           rounded="full"
           borderColor="teal"
           h={16}

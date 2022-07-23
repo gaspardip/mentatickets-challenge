@@ -2,7 +2,7 @@ import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Fuse from "fuse.js";
 import { orderBy } from "lodash";
 import { RootState } from "../../store";
-import { FilterableTodoKey, selectFilter } from "./filterSlice";
+import { selectFilter } from "./filterSlice";
 import { selectOrder } from "./orderSlice";
 import { selectSearch } from "./searchSlice";
 
@@ -87,10 +87,10 @@ export const {
   toggleTodoPriority,
 } = todosSlice.actions;
 
-export const selectTodos = (state: RootState) => state.todos;
+export const selectAllTodos = (state: RootState) => state.todos;
 
-export const selectTodosWithFilters = createSelector(
-  selectTodos,
+export const selectTodos = createSelector(
+  selectAllTodos,
   selectSearch,
   selectFilter,
   selectOrder,
@@ -108,14 +108,12 @@ export const selectTodosWithFilters = createSelector(
     }
 
     const filterEntries = Object.entries(filter).filter(
-      ([, value]) => value !== undefined
+      ([, values]) => values.length > 0
     );
 
     if (filterEntries.length) {
       results = results.filter((todo) =>
-        filterEntries.every(
-          ([key, value]) => todo[key as FilterableTodoKey] === value
-        )
+        filterEntries.every(([key, values]) => values.includes(todo[key]))
       );
     }
 
@@ -145,42 +143,39 @@ export const selectTodosWithFilters = createSelector(
   }
 );
 
-export const selectTodosStats = createSelector(
-  selectTodosWithFilters,
-  (todos) => {
-    const stats = todos.reduce(
-      (acc, { priority, status }) => {
-        switch (priority) {
-          case TodoPriority.Low:
-            acc.low++;
-            break;
-          case TodoPriority.Medium:
-            acc.medium++;
-            break;
-          case TodoPriority.High:
-            acc.high++;
-            break;
-        }
+export const selectTodosStats = createSelector(selectTodos, (todos) => {
+  const stats = todos.reduce(
+    (acc, { priority, status }) => {
+      switch (priority) {
+        case TodoPriority.Low:
+          acc.low++;
+          break;
+        case TodoPriority.Medium:
+          acc.medium++;
+          break;
+        case TodoPriority.High:
+          acc.high++;
+          break;
+      }
 
-        switch (status) {
-          case TodoStatus.New:
-            acc.new++;
-            break;
-          case TodoStatus.InProgress:
-            acc.inProgress++;
-            break;
-          case TodoStatus.Done:
-            acc.done++;
-            break;
-        }
+      switch (status) {
+        case TodoStatus.New:
+          acc.new++;
+          break;
+        case TodoStatus.InProgress:
+          acc.inProgress++;
+          break;
+        case TodoStatus.Done:
+          acc.done++;
+          break;
+      }
 
-        return acc;
-      },
-      { low: 0, medium: 0, high: 0, new: 0, inProgress: 0, done: 0 }
-    );
+      return acc;
+    },
+    { low: 0, medium: 0, high: 0, new: 0, inProgress: 0, done: 0 }
+  );
 
-    return stats;
-  }
-);
+  return { ...stats, total: todos.length };
+});
 
 export const { reducer: todosReducer } = todosSlice;

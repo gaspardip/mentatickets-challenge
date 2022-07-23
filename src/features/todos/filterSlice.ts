@@ -5,8 +5,8 @@ import { TodoPriority, TodoStatus } from "./todosSlice";
 export type FilterableTodoKey = "status" | "priority";
 
 const initialState = {
-  status: undefined as TodoStatus | undefined,
-  priority: undefined as TodoPriority | undefined,
+  status: [] as TodoStatus[],
+  priority: [] as TodoPriority[],
 } as const;
 
 export const filterSlice = createSlice({
@@ -16,10 +16,10 @@ export const filterSlice = createSlice({
     changeFilter: (
       state,
       {
-        payload: [key, value],
-      }: PayloadAction<[FilterableTodoKey, TodoStatus | TodoPriority]>
+        payload: [key, values],
+      }: PayloadAction<[FilterableTodoKey, (TodoStatus | TodoPriority)[]]>
     ) => {
-      state[key] = parseInt(value, 10);
+      state[key] = values;
     },
     clearFilter: (state, { payload }: PayloadAction<FilterableTodoKey>) => {
       state[payload] = initialState[payload];

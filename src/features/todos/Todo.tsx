@@ -59,7 +59,7 @@ export const Todo = ({ id, name, status, priority }: TodoProps) => {
       transitionDuration={transitionDuration}
       transitionTimingFunction={transitionTimingFunction}
     >
-      <Flex alignItems="center">
+      <Flex align="center">
         <Checkbox
           isChecked={isDone}
           mr={4}
