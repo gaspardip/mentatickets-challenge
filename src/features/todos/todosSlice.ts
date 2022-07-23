@@ -2,7 +2,7 @@ import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Fuse from "fuse.js";
 import { orderBy } from "lodash";
 import { RootState } from "../../store";
-import { selectFilter } from "./filterSlice";
+import { FilterableTodoKey, selectFilter } from "./filterSlice";
 import { selectOrder } from "./orderSlice";
 import { selectSearch } from "./searchSlice";
 
@@ -113,7 +113,11 @@ export const selectTodos = createSelector(
 
     if (filterEntries.length) {
       results = results.filter((todo) =>
-        filterEntries.every(([key, values]) => values.includes(todo[key]))
+        filterEntries.every(([key, values]) => {
+          const value = todo[key as FilterableTodoKey];
+
+          return values.includes(value);
+        })
       );
     }
 

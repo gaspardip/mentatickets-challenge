@@ -1,7 +1,7 @@
 import { Flex, FlexProps } from "@chakra-ui/react";
 import { MultiValue } from "chakra-react-select";
 import { useDispatch } from "react-redux";
-import { Select } from "~/components/select/Select";
+import { Option, Select } from "~/components/select/Select";
 import { changeFilter, clearFilter, FilterableTodoKey } from "./filterSlice";
 import { TodoPriority, TodoStatus } from "./todosSlice";
 
@@ -9,10 +9,7 @@ export const Filters = (props: FlexProps) => {
   const dispatch = useDispatch();
 
   const createHandleChange =
-    (prop: FilterableTodoKey) =>
-    (
-      values: MultiValue<{ value: TodoStatus | TodoPriority; label: string }>
-    ) => {
+    (prop: FilterableTodoKey) => (values: MultiValue<Option<number>>) => {
       const action =
         values.length > 0
           ? changeFilter([prop, values.map(({ value }) => value)])

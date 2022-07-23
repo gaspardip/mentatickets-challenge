@@ -1,14 +1,16 @@
 import { Props, Select as ChakraReactSelect } from "chakra-react-select";
 import { ClearButton } from "../button/ClearButton";
 
-type SelectProps<Option = unknown> = Props<Option, true>;
+export type Option<T = string> = { value: T; label: string };
 
-export const Select = <Option,>(props: SelectProps<Option>) => {
+type SelectProps<T = Option> = Props<T, true>;
+
+export const Select = <T,>(props: SelectProps<T>) => {
   return (
     <ChakraReactSelect
       {...props}
       isMulti
-      chakraStyles={chakraStyles as SelectProps<Option>["chakraStyles"]}
+      chakraStyles={chakraStyles as SelectProps<T>["chakraStyles"]}
       components={components}
       size="md"
       openMenuOnFocus
@@ -17,10 +19,10 @@ export const Select = <Option,>(props: SelectProps<Option>) => {
 };
 
 const components = {
-  ClearIndicator: ({ innerProps }) => (
+  ClearIndicator: ({ innerProps }: Record<string, any>) => (
     <ClearButton {...innerProps} aria-label="Clear selection" />
   ),
-} as SelectProps["components"];
+} as const;
 
 const chakraStyles: SelectProps["chakraStyles"] = {
   container: (base) => ({
