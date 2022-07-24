@@ -1,33 +1,30 @@
-import { VStack } from "@chakra-ui/react";
-import { Card } from "~/components/card/Card";
+import { Box, BoxProps, VStack } from "@chakra-ui/react";
 import { useAppSelector } from "~/hooks/useAppDispatch";
+import { selectPaginatedTodos } from "./paginationSlice";
 import { Todo } from "./Todo";
-import { selectTodos } from "./todosSlice";
 
-export const TodoList = () => {
-  const todos = useAppSelector(selectTodos);
+export const TodoList = (props: BoxProps) => {
+  const todos = useAppSelector(selectPaginatedTodos);
 
   return (
     <>
       {todos.length > 0 ? (
-        <Card>
-          <VStack spacing={4} align="stretch">
-            {todos.map((todo) => {
-              return <Todo {...todo} key={todo.id} />;
-            })}
-          </VStack>
-        </Card>
+        <VStack {...props} spacing={4} align="stretch">
+          {todos.map((todo) => {
+            return <Todo {...todo} key={todo.id} />;
+          })}
+        </VStack>
       ) : (
-        <NoTodos />
+        <NoTodos {...props} />
       )}
     </>
   );
 };
 
-const NoTodos = () => {
+const NoTodos = (props: BoxProps) => {
   return (
-    <Card color="whiteAlpha.700" justify="center" align="center">
+    <Box {...props} as="span" color="whiteAlpha.700" mx="auto">
       Todos will appear here
-    </Card>
+    </Box>
   );
 };

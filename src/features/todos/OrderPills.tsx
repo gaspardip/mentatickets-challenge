@@ -1,17 +1,23 @@
 import { TriangleDownIcon, TriangleUpIcon } from "@chakra-ui/icons";
-import { Box, HStack, StackProps, Tag, useToken } from "@chakra-ui/react";
+import {
+  Box,
+  SimpleGrid,
+  SimpleGridProps,
+  Tag,
+  useToken,
+} from "@chakra-ui/react";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "~/hooks/useAppDispatch";
 import { selectOrderProp, toggleOrder } from "./orderSlice";
 import { TodoProp } from "./todosSlice";
 
-export const OrderPills = (props: StackProps) => {
+export const OrderPills = (props: SimpleGridProps) => {
   return (
-    <HStack {...props} spacing={4}>
+    <SimpleGrid {...props} columns={2} spacing={4}>
       {sortingProps.map((prop) => (
         <OrderPill key={prop} prop={prop} />
       ))}
-    </HStack>
+    </SimpleGrid>
   );
 };
 
@@ -49,7 +55,7 @@ const OrderPill = ({ prop }: OrderPillProps) => {
       rounded="full"
       onClick={handleClick}
       borderWidth={1}
-      width={`${(1 / sortingProps.length) * 100}%`}
+      width="full"
       transitionProperty={transitionProperty}
       transitionDuration={transitionDuration}
       transitionTimingFunction={transitionTimingFunction}
@@ -63,4 +69,9 @@ const OrderPill = ({ prop }: OrderPillProps) => {
   );
 };
 
-const sortingProps = ["status", "priority"] as TodoProp[];
+const sortingProps = [
+  "name",
+  "description",
+  "status",
+  "priority",
+] as TodoProp[];

@@ -4,6 +4,7 @@ import { Filters } from "../todos/Filters";
 import { NewTodoInput } from "../todos/NewTodoInput";
 import { NewTodoModal } from "../todos/NewTodoModal";
 import { OrderPills } from "../todos/OrderPills";
+import { Pagination } from "../todos/Pagination";
 import { Search } from "../todos/Search";
 import { TodoList } from "../todos/TodoList";
 import { TodoStats } from "../todos/TodoStats";
@@ -38,7 +39,10 @@ export const App = () => {
           </Card>
         </GridItem>
         <GridItem colSpan={{ base: 1, md: 3 }}>
-          <TodoList />
+          <Card>
+            <TodoList />
+            <Pagination mx="auto" />
+          </Card>
         </GridItem>
       </Grid>
 
