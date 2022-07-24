@@ -10,16 +10,17 @@ import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useDebouncedCallback } from "use-debounce";
 import { ClearButton } from "~/components/button/ClearButton";
+import { resetPage } from "./paginationSlice";
 import { changeSearch, clearSearch } from "./searchSlice";
 
 export const Search = (props: InputGroupProps) => {
   const dispatch = useDispatch();
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleChange = useDebouncedCallback(
-    () => dispatch(changeSearch(inputRef.current!.value)),
-    300
-  );
+  const handleChange = useDebouncedCallback(() => {
+    dispatch(changeSearch(inputRef.current!.value));
+    dispatch(resetPage());
+  }, 300);
 
   const handleClearSearch = () => {
     inputRef.current!.value = "";

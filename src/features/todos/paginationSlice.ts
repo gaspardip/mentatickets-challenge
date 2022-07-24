@@ -17,13 +17,16 @@ export const paginationSlice = createSlice({
     nextPage: (state) => {
       state.page = state.page + 1;
     },
+    resetPage: (state) => {
+      state.page = initialState.page;
+    },
     changePageSize: (state, action: PayloadAction<number>) => {
       state.pageSize = action.payload;
     },
   },
 });
 
-export const { previousPage, nextPage, changePageSize } =
+export const { previousPage, nextPage, resetPage, changePageSize } =
   paginationSlice.actions;
 
 export const selectPagination = (state: RootState) => {

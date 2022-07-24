@@ -100,7 +100,7 @@ export const selectTodos = createSelector(
     if (search) {
       const fuse = new Fuse(todos, {
         shouldSort: true,
-        threshold: 0.6,
+        threshold: 0.25,
         keys: ["name", "description"],
       });
 

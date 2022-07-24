@@ -3,6 +3,7 @@ import { MultiValue } from "chakra-react-select";
 import { useDispatch } from "react-redux";
 import { Option, Select } from "~/components/select/Select";
 import { changeFilter, clearFilter, FilterableTodoKey } from "./filterSlice";
+import { resetPage } from "./paginationSlice";
 import { TodoPriority, TodoStatus } from "./todosSlice";
 
 export const Filters = (props: FlexProps) => {
@@ -16,6 +17,7 @@ export const Filters = (props: FlexProps) => {
           : clearFilter(prop);
 
       dispatch(action);
+      dispatch(resetPage());
     };
 
   const handleStatusChange = createHandleChange("status");

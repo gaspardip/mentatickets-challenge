@@ -41,7 +41,7 @@ export const App = () => {
         <GridItem colSpan={{ base: 1, md: 3 }}>
           <Card>
             <TodoList />
-            <Pagination mx="auto" />
+            <Pagination mt={4} />
           </Card>
         </GridItem>
       </Grid>
