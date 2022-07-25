@@ -6,7 +6,7 @@ import { OrderPills } from "../todos/OrderPills";
 import { Pagination } from "../todos/Pagination";
 import { Search } from "../todos/Search";
 import { TodoList } from "../todos/TodoList";
-import { TodoStats } from "../todos/TodoStats";
+import { Stats } from "../todos/Stats";
 
 export const App = () => {
   return (
@@ -34,7 +34,7 @@ export const App = () => {
             <OrderPills />
           </Card>
           <Card>
-            <TodoStats />
+            <Stats />
           </Card>
         </GridItem>
         <GridItem colSpan={{ base: 1, md: 3 }}>

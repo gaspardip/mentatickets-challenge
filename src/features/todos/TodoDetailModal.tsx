@@ -35,7 +35,6 @@ export const TodoDetailModal = ({
 
   const {
     register,
-    setFocus,
     handleSubmit,
     formState: { errors },
   } = useForm({

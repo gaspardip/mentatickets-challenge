@@ -9,7 +9,7 @@ import {
 import { useAppSelector } from "~/hooks/useAppDispatch";
 import { selectTodosStats } from "./todosSlice";
 
-export const TodoStats = () => {
+export const Stats = () => {
   const {
     low,
     medium,

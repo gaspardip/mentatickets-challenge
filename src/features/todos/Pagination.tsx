@@ -25,9 +25,7 @@ export const Pagination = (props: StackProps) => {
   const { page, pages, hasPreviousPage, hasNextPage, pageSize } =
     useAppSelector(selectPagination);
 
-  if (todos.length === 0) {
-    return null;
-  }
+  if (todos.length === 0) return null;
 
   const handlePreviousClick = () => {
     dispatch(previousPage());
