@@ -15,8 +15,8 @@ import {
   Select,
   Textarea,
 } from "@chakra-ui/react";
-import { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import { useCallbackRef } from "use-callback-ref";
 import { useAppDispatch } from "~/hooks/useAppDispatch";
 
 import { Todo, TodoPriority, TodoStatus, updateTodo } from "./todosSlice";
@@ -43,6 +43,18 @@ export const TodoDetailModal = ({
     defaultValues: { name, description, status, priority },
   });
 
+  const { ref: nameRef, ...restName } = register("name", registerOptions);
+
+  const nameCallbackRef = useCallbackRef<HTMLInputElement | null>(
+    null,
+    (ref) => {
+      if (ref) {
+        nameRef(ref);
+        ref.focus();
+      }
+    }
+  );
+
   const onSubmit = handleSubmit(({ name, description, status, priority }) => {
     dispatch(
       updateTodo({
@@ -57,14 +69,6 @@ export const TodoDetailModal = ({
     props.onClose();
   });
 
-  useEffect(() => {
-    if (props.isOpen) {
-      try {
-        setFocus("name");
-      } catch (e) {}
-    }
-  }, [props.isOpen, setFocus]);
-
   return (
     <Modal {...props}>
       <ModalOverlay />
@@ -75,7 +79,7 @@ export const TodoDetailModal = ({
           <ModalBody>
             <FormControl pb={4} isInvalid={Boolean(errors.name)}>
               <FormLabel htmlFor="name">Name</FormLabel>
-              <Input {...register("name", registerOptions)} id="name" />
+              <Input {...restName} ref={nameCallbackRef} id="name" />
               {errors.name && (
                 <FormErrorMessage>{errors.name.message}</FormErrorMessage>
               )}
