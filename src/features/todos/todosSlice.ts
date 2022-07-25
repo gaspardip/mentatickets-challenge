@@ -1,7 +1,7 @@
 import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import Fuse from "fuse.js";
 import { orderBy } from "lodash";
-import { RootState } from "../../store";
+import { RootState } from "~/store";
 import { FilterableTodoKey, selectFilter } from "./filterSlice";
 import { selectOrder } from "./orderSlice";
 import { selectSearch } from "./searchSlice";
@@ -34,10 +34,14 @@ export const todosSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {
-    addTodo: (state, action: PayloadAction<Omit<Todo, "id" | "status">>) => {
+    addTodo: (
+      state,
+      action: PayloadAction<Omit<Todo, "id" | "description" | "status">>
+    ) => {
       const newTodo = {
         ...action.payload,
         id: Date.now().toString(),
+        description: "",
         status: TodoStatus.New,
       };
 
@@ -62,7 +66,11 @@ export const todosSlice = createSlice({
       if (!todo) return;
 
       todo.status =
-        todo.status === TodoStatus.New ? TodoStatus.Done : TodoStatus.New;
+        todo.status === TodoStatus.New
+          ? TodoStatus.InProgress
+          : todo.status === TodoStatus.InProgress
+          ? TodoStatus.Done
+          : TodoStatus.New;
     },
     toggleTodoPriority: (state, action: PayloadAction<string>) => {
       const todo = state.find((todo) => todo.id === action.payload);

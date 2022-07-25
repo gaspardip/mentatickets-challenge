@@ -2,7 +2,6 @@ import { Flex, Grid, GridItem, Heading } from "@chakra-ui/react";
 import { Card } from "~/components/card/Card";
 import { Filters } from "../todos/Filters";
 import { NewTodoInput } from "../todos/NewTodoInput";
-import { NewTodoModal } from "../todos/NewTodoModal";
 import { OrderPills } from "../todos/OrderPills";
 import { Pagination } from "../todos/Pagination";
 import { Search } from "../todos/Search";
@@ -20,7 +19,7 @@ export const App = () => {
       px={{ base: 10, md: 0 }}
     >
       <Heading as="h1" size="2xl" mb={4} color="teal.300">
-        TODO
+        TODO MANAGER
       </Heading>
       <NewTodoInput mb={4} maxW="lg" />
       <Grid
@@ -45,8 +44,6 @@ export const App = () => {
           </Card>
         </GridItem>
       </Grid>
-
-      <NewTodoModal />
     </Flex>
   );
 };

@@ -9,10 +9,10 @@ export const TodoList = (props: BoxProps) => {
   return (
     <>
       {todos.length > 0 ? (
-        <VStack {...props} spacing={4} align="stretch">
-          {todos.map((todo) => {
-            return <Todo {...todo} key={todo.id} />;
-          })}
+        <VStack {...props} spacing={3} align="stretch">
+          {todos.map((todo) => (
+            <Todo {...todo} key={todo.id} />
+          ))}
         </VStack>
       ) : (
         <NoTodos {...props} />

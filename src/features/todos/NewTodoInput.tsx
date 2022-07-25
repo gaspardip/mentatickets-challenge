@@ -23,7 +23,6 @@ export const NewTodoInput = (props: FlexProps) => {
     dispatch(
       addTodo({
         name,
-        description: "",
         priority: TodoPriority.Medium,
       })
     );

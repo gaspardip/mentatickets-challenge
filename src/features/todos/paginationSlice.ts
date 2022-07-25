@@ -4,7 +4,7 @@ import { selectTodos } from "./todosSlice";
 
 const initialState = {
   page: 1,
-  pageSize: 5,
+  pageSize: 10,
 };
 
 export const paginationSlice = createSlice({
